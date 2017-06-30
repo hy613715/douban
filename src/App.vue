@@ -11,11 +11,13 @@
             <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
         </el-menu>
         <el-row class="container">
-          <sidebar></sidebar>
-          <el-col :span="8" class="content">
-              <home></home>
-          </el-col>
-        </el-row>
+             <el-col :span="4">
+                  <sidebar></sidebar>
+              </el-col>
+              <el-col :span="8" class="content">
+                  <home></home>
+              </el-col>
+            </el-row>
     </div>
 </template>
 

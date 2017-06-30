@@ -57,13 +57,12 @@ module.exports = (options = {}) => ({
     host: '127.0.0.1',
     port: 8010,
     proxy: {
-      '/api/*': {
+      '/api/': {
         target: 'https://api.douban.com',
         changeOrigin: true,
-        secure: false
-        // pathRewrite: {
-        //   '^/api': ''
-        // }
+        pathRewrite: {
+          '^/api': ''
+        }
       }
     },
     historyApiFallback: {

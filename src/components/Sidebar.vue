@@ -1,5 +1,5 @@
 <template>
-    <el-col :span="4">
+
         <el-menu default-active="2" class="el-menu-vertical-demo">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>导航一</template>
@@ -19,10 +19,9 @@
           <el-menu-item index="2"><i class="el-icon-menu"></i>导航二</el-menu-item>
           <el-menu-item index="3"><i class="el-icon-setting"></i>导航三</el-menu-item>
         </el-menu>
-    </el-col>
 </template>
 <script>
   export default {
-    
+
   }
 </script>

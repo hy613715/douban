@@ -19,10 +19,10 @@ export default {
   },
   methods: {
     searchMuisc() {
-        this.$http.get('/api/v2/music/search').then(function(res){
+        var _this = this;
+        _this.$http.get('/api/v2/music/search').then(function(res){
             console.log(res);
         })
-      console.log(1);
     }
   }
 }
