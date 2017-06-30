@@ -1,6 +1,29 @@
 <template>
-<div class="jumbotron">
-  <h1>任务追踪</h1>
-  <p> <strong> <router-link to="/time-entries">创建一个任务</router-link> </strong> </p>
-</div>
+    <el-input
+      placeholder="搜索音乐"
+      icon="search"
+      v-model="musicName"
+      :on-icon-click="searchMuisc">
+    </el-input>
 </template>
+<script>
+import VueResource from 'vue-resource'
+import Vue from 'vue'
+
+Vue.use(VueResource)
+export default {
+  data() {
+    return {
+      musicName: ''
+    }
+  },
+  methods: {
+    searchMuisc() {
+        this.$http.get('/api/v2/music/search').then(function(res){
+            console.log(res);
+        })
+      console.log(1);
+    }
+  }
+}
+</script>

@@ -1,33 +1,35 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <el-button @click.native="startHacking">Let's do it</el-button>
-  </div>
+    <div id="app" class="wrapper">
+        <el-menu theme="dark" class="el-menu-demo" mode="horizontal">
+            <el-menu-item index="1">处理中心</el-menu-item>
+            <el-submenu index="2">
+                <template slot="title">我的工作台</template>
+                <el-menu-item index="2-1">选项1</el-menu-item>
+                <el-menu-item index="2-2">选项2</el-menu-item>
+                <el-menu-item index="2-3">选项3</el-menu-item>
+            </el-submenu>
+            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        </el-menu>
+        <el-row class="container">
+          <sidebar></sidebar>
+          <el-col :span="8" class="content">
+              <home></home>
+          </el-col>
+        </el-row>
+    </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      msg: 'Use Vue 2.0 Today!'
+    import Sidebar from './components/Sidebar.vue'
+    import Home from './components/Home.vue'
+    export default{
+        components: {
+            'sidebar': Sidebar,
+            'home': Home
+        }
     }
-  },
-
-  methods: {
-    startHacking () {
-      this.$notify({
-        title: 'It Works',
-        message: 'We have laid the groundwork for you. Now it\'s your time to build something epic!',
-        duration: 6000
-      })
-    }
-  }
-}
 </script>
 
 <style>
-body {
-  font-family: Helvetica, sans-serif;
-}
+    @import "./theme/app.css";
 </style>
