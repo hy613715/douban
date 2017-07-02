@@ -1,6 +1,22 @@
 <template>
-<div class="jumbotron">
-  <h1>任务追踪</h1>
-  <p> <strong> <router-link to="/time-entries">创建一个任务</router-link> </strong> </p>
-</div>
+    <el-input
+  placeholder="请选择日期"
+  icon="search"
+  v-model="input2"
+  :on-icon-click="handleIconClick">
+</el-input>
 </template>
+<script>
+    export default {
+        data(){
+            return {
+                input2: ''
+            }
+        },
+        methods: {
+            handleIconClick(ev) {
+                console.log(ev);
+            }
+        }
+    }
+</script>

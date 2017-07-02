@@ -1,33 +1,23 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <el-button @click.native="startHacking">Let's do it</el-button>
-  </div>
+    <div id="app">
+        <el-row>
+            <el-col :span="6">
+                <sidebar></sidebar>
+            </el-col>
+            <el-col :span="18">
+                <home33></home33>
+            </el-col>
+        </el-row>
+    </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      msg: 'Use Vue 2.0 Today!'
+    import Sidebar from './components/Sidebar.vue'
+    import Home from './components/Home.vue'
+    export default {
+        components: {
+          'sidebar' : Sidebar,
+          'home33' : Home
+        }
     }
-  },
-
-  methods: {
-    startHacking () {
-      this.$notify({
-        title: 'It Works',
-        message: 'We have laid the groundwork for you. Now it\'s your time to build something epic!',
-        duration: 6000
-      })
-    }
-  }
-}
 </script>
-
-<style>
-body {
-  font-family: Helvetica, sans-serif;
-}
-</style>
