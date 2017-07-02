@@ -31,7 +31,7 @@
         </dl>
         <dl class="clearfix">
             <dt>电影海报图:</dt>
-            <dd><img v-bind:src="movieData.images.large"></dd>
+            <dd><img v-bind:src="large"></dd>
         </dl>
         <dl class="clearfix">
             <dt>原名：</dt>
@@ -69,6 +69,7 @@
             return {
                 getUrl: '/api/v2/movie/subject/1764796',
                 movieData:{},
+                large:''
             }
         },
 
@@ -80,6 +81,7 @@
             getData :function(){
                 this.$http.get(this.getUrl).then(res => {
                     this.movieData = res.body;
+                    this.large = this.movieData.images.large
                 })
             }
         }
