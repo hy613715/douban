@@ -22,10 +22,7 @@ new Vue({
   methods: {
     getData :function(){
         var _this = this;
-        _this.$http.get({
-            type: 'GET',
-            url: this.getUrl
-        }).then(function(res){
+        _this.$http.get(this.getUrl).then(function(res){
             console.log(res)
         })
     }
