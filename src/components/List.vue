@@ -19,7 +19,7 @@ Vue.use(VueResource)
   export default {
     data() {
       return {
-          getUrl: 'v2/movie/subject/1764796'
+          getUrl: '/api/v2/movie/subject/1764796'
       }
   },
 
