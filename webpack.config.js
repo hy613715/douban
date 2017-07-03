@@ -49,10 +49,7 @@ module.exports = (options = {}) => ({
       template: 'src/index.html'
       }),
       new HtmlWebpackPlugin({
-          filename: 'list/list.html', //http访问路径
-          template: './src/views/list/list.html', //实际文件路径
-          inject: true,
-          chunks: ['list']
+          template: './src/views/list/list.html' //实际文件路径、
         })
   ],
   resolve: {
