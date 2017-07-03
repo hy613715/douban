@@ -12,9 +12,7 @@ module.exports = (options = {}) => ({
   },
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: options.dev ? '[name].js' : '[name].js?[chunkhash]',
-    chunkFilename: '[id].js?[chunkhash]',
-    publicPath: options.dev ? '/assets/' : publicPath
+    filename: '[name].js'
   },
   module: {
     rules: [{
@@ -46,14 +44,14 @@ module.exports = (options = {}) => ({
     //   names: ['vendor', 'manifest']
     // }),
     new HtmlWebpackPlugin({
-        filename: 'index.html',
-      template: 'src/index.html',
-      inject: true,
-      chunks: ['index']
+          filename: 'index.html',
+          template: 'src/index.html',
+          inject: true,
+          chunks: ['index']
       }),
       new HtmlWebpackPlugin({
           filename: 'list/list.html',
-          template: 'src/views/list/list.html', //实际文件路径、
+          template: './src/views/list/list.html', //实际文件路径、
           inject: true,
           chunks: ['list']
         })
@@ -76,7 +74,7 @@ module.exports = (options = {}) => ({
       }
     },
     historyApiFallback: {
-      index: url.parse(options.dev ? '/assets/' : publicPath).pathname
+        index: url.parse(options.dev ? '/assets/' : publicPath).pathname
     }
   },
   devtool: options.dev ? '#eval-source-map' : '#source-map'
