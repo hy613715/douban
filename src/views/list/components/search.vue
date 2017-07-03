@@ -80,7 +80,6 @@
             },
             handleCurrentChange(page) {
                 this.getResult(page);
-                console.log(`当前页: ${page}`);
             }
         }
     }
