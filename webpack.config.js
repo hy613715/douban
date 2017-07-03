@@ -42,14 +42,20 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   names: ['vendor', 'manifest']
+    // }),
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+        filename: 'index.html',
+      template: 'src/index.html',
+      inject: true,
+      chunks: ['index']
       }),
       new HtmlWebpackPlugin({
-          template: './src/views/list/list.html' //实际文件路径、
+          filename: 'list/list.html',
+          template: 'src/views/list/list.html', //实际文件路径、
+          inject: true,
+          chunks: ['list']
         })
   ],
   resolve: {

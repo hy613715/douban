@@ -6,6 +6,6 @@ import List from './List.vue'
 Vue.use(ElementUI)
 
 new Vue({
-  el: '#app',
+  el: '#list',
   render: h => h(List)
 })
