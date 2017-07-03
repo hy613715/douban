@@ -25,9 +25,8 @@
             </li>
         </ul>
         <el-pagination
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="start"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -49,8 +48,7 @@
                 searchResult : [],
                 start:1,
                 count: 10,
-                currentPage4:4,
-                total:0,//获取数据条数（电影总数）
+                total:0 // 获取数据条数（电影总数）
             }
         },
         mounted(){
@@ -58,37 +56,27 @@
         },
         methods: {
             getResult(page){
-                var publicUrl = '/api/v2/movie/search?q=',
-                    defaultUrl =  '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
 
                 this.start = page ? page :this.start;
 
-                if(!this.searchTarget){
-                    this.$http.get(defaultUrl).then(res=>{
+                url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
 
-                        this.searchResult = res.body.subjects;
-
-                        this.total = res.body.total;//获取数据条数（电影总数）
-                    })
-                }else {
-                    this.$http.get(publicUrl+this.searchTarget).then(res=>{
-                        this.searchResult = res.body.subjects;
-                        this.searchTarget="";//清空输入框
-                    })
+                if (!this.searchTarget) {
+                    var url = '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
                 }
+
+                this.$http.get(url).then(res=>{
+                    var data = res.body;
+                    this.searchResult = data.subjects;
+                    this.total = data.total;
+                    // this.searchTarget=""; //清空输入框 ,这里不应该清空
+                });
+
             },
             enterSearch(){
-                if(this.searchTarget==""){
-                    // alert("请输入内容！");
-                    return false;
-                }
                 this.getResult(); //点击搜索按钮，发送请求，获取数据
                 // 此处应该再加一个判断，如果没有搜索结果，提示
                 // this.showList = true; //点击输入按钮显示内容
-            },
-            handleSizeChange(page) {
-                this.getResult(page);
-                console.log(`每页 ${page} 条`);
             },
             handleCurrentChange(page) {
                 this.getResult(page);
