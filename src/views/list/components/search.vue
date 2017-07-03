@@ -27,6 +27,7 @@
         <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
+        :current-page="currentPage4"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -46,8 +47,9 @@
             return {
                 searchTarget: '',
                 searchResult : [],
-                start:2,
+                start:1,
                 count: 10,
+                currentPage4:4,
                 total:0,//获取数据条数（电影总数）
             }
         },
@@ -59,11 +61,10 @@
                 var publicUrl = '/api/v2/movie/search?q=',
                     defaultUrl =  '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
 
-                this.count = page ? page :this.count;
+                this.start = page ? page :this.start;
 
                 if(!this.searchTarget){
                     this.$http.get(defaultUrl).then(res=>{
-                        res.body.count = this.count;
 
                         this.searchResult = res.body.subjects;
 
