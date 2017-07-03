@@ -1,6 +1,6 @@
 <template>
-    <div id="app">
-    
+    <div id="list">
+        ss
     </div>
 </template>
 
