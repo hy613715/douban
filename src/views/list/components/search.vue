@@ -65,7 +65,6 @@
 
                 if(!this.searchTarget){
                     this.$http.get(defaultUrl).then(res=>{
-
                         this.searchResult = res.body.subjects;
 
                         this.total = res.body.total;//获取数据条数（电影总数）
