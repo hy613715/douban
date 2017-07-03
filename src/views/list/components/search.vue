@@ -58,7 +58,7 @@
             getResult(page){
 
                 this.start = page ? page :this.start;
-
+                
                 url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
 
                 if (!this.searchTarget) {
