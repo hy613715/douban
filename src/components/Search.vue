@@ -1,15 +1,9 @@
 <template>
   <div>
     <el-input
-      placeholder="请选择日期"
+      placeholder="请输入您要搜索的内容"
       icon="search"
-      v-model="input2"
-      :on-icon-click="handleIconClick">
-    </el-input>
-    <el-input
-      placeholder="请选择日期"
-      icon="search"
-      v-model="input1"
+      v-model="searchTarget"
       :on-icon-click="handleIconClick">
     </el-input>
   </div>
@@ -24,19 +18,19 @@ Vue.use(VueResource)
 export default {
   data() {
     return {
-      input1: '',
-      input2: '',
-      searchData : ''
+      searchTarget: '',
+      searchResult : ''
     }
   },
   methods: {
-    getSearchData:function(){
-        this.$http.get('/api/v2/movie/search?q='+this.input2+'&tag='+this.input1).then(res=>{
+    getResult:function(){
+        this.$http.get('/api/v2/movie/search?q='+this.searchTarget).then(res=>{
           this.searchData = res.body;
+          this.searchTarget="";
       })
     },
     handleIconClick(ev) {
-      this.getSearchData();
+      this.getResult();
     }
   }
 }
