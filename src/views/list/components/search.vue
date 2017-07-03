@@ -7,10 +7,11 @@
             id="searchBar"
             type="text"
             placeholder="请输入您要搜索的内容"
-            v-model="searchTarget">
+            v-model="searchTarget"
+            @keyup.enter="enterSearch">
             <button @click="enterSearch">搜索</button>
         </div>
-        <ul class="movieList" v-if="showList">
+        <ul class="movieList">
             <li class="item clearfix" v-for="item in searchResult">
                 <a :href="item.alt" class="movieImg"><img :src="item.images.large" alt=""></a>
                 <div class="movieMsg">
@@ -20,13 +21,18 @@
                     <p class="moiveCasts">主演：<a :href="cast.alt" v-for="cast in item.casts">{{cast.name}}</a></p>
                     <p class="moiveInfo">简介：数据里面没看到有关电影介绍的内容</p>
                     <p class="moiveWatch">看过人数：{{item.collect_count}}</p>
-                    <p  class="moiveRank">
-                        评分：
-                        <el-rate v-model="mvRank" show-text></el-rate>
-                    </p>
                 </div>
             </li>
         </ul>
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage4"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="400">
+        </el-pagination>
     </div>
 </template>
 
@@ -40,26 +46,46 @@
         data() {
             return {
                 searchTarget: '',
-                showList:false,
                 searchResult : [],
-                mvRank: null
+                currentPage4: 1,
+                count: 10
             }
+        },
+        mounted(){
+            this.getResult();
         },
         methods: {
             getResult(){
-                this.$http.get('/api/v2/movie/search?q='+this.searchTarget).then(res=>{
-                    this.searchResult = res.body.subjects;
-                    this.searchTarget="";//情况输入框
-                })
+                var publicUrl = '/api/v2/movie/search?q=',
+                    defaultUrl = '/api/v2/movie/top250';
+                if(!this.searchTarget){
+                    this.$http.get(defaultUrl).then(res=>{
+                        debugger;
+                        res.body.count = this.count;
+                        console.log(res.body.count);
+                        this.searchResult = res.body.subjects;
+                    })
+                }else {
+                    this.$http.get(publicUrl+this.searchTarget).then(res=>{
+                        this.searchResult = res.body.subjects;
+                        this.searchTarget="";//清空输入框
+                    })
+                }
             },
             enterSearch(){
-                this.getResult(); //点击搜索按钮，发送请求，获取数据
                 if(this.searchTarget==""){
-                    alert("请输入内容！");
+                    // alert("请输入内容！");
                     return false;
                 }
+                this.getResult(); //点击搜索按钮，发送请求，获取数据
                 // 此处应该再加一个判断，如果没有搜索结果，提示
-                this.showList = true; //点击输入按钮显示内容
+                // this.showList = true; //点击输入按钮显示内容
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
             }
         }
     }
@@ -72,14 +98,13 @@
     }
     .movieList .item {
         border-bottom: 1px dashed #ccc;
+        padding: 15px 20px;
     }
-    .movieImg,
-    .movieMsg {
+    .movieImg {
         float: left;
     }
     .movieImg {
-        margin-right: 20px;
-        width: 200px;
+        width: 150px;
         overflow: hidden;
     }
     .movieImg img {
@@ -88,6 +113,7 @@
     .movieMsg {
         font-size: 14px;
         color: #555;
+        margin-left: 170px;
     }
     .movieMsg a {
         display: block;
