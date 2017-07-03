@@ -7,7 +7,8 @@ const publicPath = ''
 module.exports = (options = {}) => ({
   entry: {
     vendor: './src/vendor',
-    index: './src/main.js'
+    index: './src/main.js',
+    list: './src/views/list/entry.js'
   },
   output: {
     path: resolve(__dirname, 'dist'),
@@ -46,7 +47,13 @@ module.exports = (options = {}) => ({
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    })
+      }),
+      new HtmlWebpackPlugin({
+          filename: 'list/list.html', //http访问路径
+          template: './src/views/list/list.html', //实际文件路径
+          inject: true,
+          chunks: ['list']
+        })
   ],
   resolve: {
     alias: {
