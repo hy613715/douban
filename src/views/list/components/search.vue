@@ -27,7 +27,6 @@
         <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="jumpTo"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -47,7 +46,6 @@
             return {
                 searchTarget: '',
                 searchResult : [],
-                jumpTo: 1,
                 start:2,
                 count: 10,
                 total:0,//获取数据条数（电影总数）
