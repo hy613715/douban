@@ -27,11 +27,11 @@
         <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="jumpTo"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :total="total">
         </el-pagination>
     </div>
 </template>
@@ -47,23 +47,29 @@
             return {
                 searchTarget: '',
                 searchResult : [],
-                currentPage4: 1,
-                count: 10
+                jumpTo: 1,
+                start:2,
+                count: 10,
+                total:0,//获取数据条数（电影总数）
             }
         },
         mounted(){
             this.getResult();
         },
         methods: {
-            getResult(){
+            getResult(page){
                 var publicUrl = '/api/v2/movie/search?q=',
-                    defaultUrl = '/api/v2/movie/top250';
+                    defaultUrl =  '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
+
+                this.count = page ? page :this.count;
+
                 if(!this.searchTarget){
                     this.$http.get(defaultUrl).then(res=>{
-                        debugger;
                         res.body.count = this.count;
-                        console.log(res.body.count);
+
                         this.searchResult = res.body.subjects;
+
+                        this.total = res.body.total;//获取数据条数（电影总数）
                     })
                 }else {
                     this.$http.get(publicUrl+this.searchTarget).then(res=>{
@@ -81,11 +87,13 @@
                 // 此处应该再加一个判断，如果没有搜索结果，提示
                 // this.showList = true; //点击输入按钮显示内容
             },
-            handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
+            handleSizeChange(page) {
+                this.getResult(page);
+                console.log(`每页 ${page} 条`);
             },
-            handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
+            handleCurrentChange(page) {
+                this.getResult(page);
+                console.log(`当前页: ${page}`);
             }
         }
     }
