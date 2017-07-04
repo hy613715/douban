@@ -29,6 +29,8 @@
         },
         methods: {
             enterSearch(){
+                this.$root.eventHub.$emit('searchKey', this.searchTxt);
+
                 this.$emit('onClickSearch', {
                     page:1,
                     searchKey: this.searchTxt

@@ -36,19 +36,12 @@ export default {
             }
             this.$http.get(url).then(res=>{
                 var data = res.body;
-                // searchTarget = data.subjects;
-                // this.searchTarget=""; //清空输入框 ,这里不应该清空
+
                 //向其他组件发送数据，让其他组件也能使用这里获取到的数据
                 this.$root.eventHub.$emit('getSearchResult', data);
-
-                // this.$root.eventHub.$on('currentPage',(page)=>{
-                //     this.start = page;
-                //     this.searchTarget = searchTarget;
-                // })
             });
         }
     }
-
 }
 
 </script>
