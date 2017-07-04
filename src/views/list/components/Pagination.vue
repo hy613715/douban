@@ -20,13 +20,12 @@
         },
         methods: {
             obtainData(){
-                this.$root.eventHub.$on('getResult',(searchResult)=>{
-                    this.result = searchResult;
+                this.$root.eventHub.$on('getSearchResult',(data)=>{
+                    this.result = data;
                 })
             },
             handleCurrentChange(page) {
-                console.log(`当前页: ${page}`);
-                this.$root.eventHub.$emit('handleSizeChange',page)
+                this.$emit('onClickSearch', page)
             }
         }
     }

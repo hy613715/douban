@@ -6,7 +6,7 @@
         id="searchBar"
         type="text"
         placeholder="请输入您要搜索的内容"
-        v-model="searchTarget"
+        v-model="searchTxt"
         @keyup.enter="enterSearch">
         <button @click="enterSearch">搜索</button>
     </div>
@@ -21,38 +21,18 @@
     export default {
         data() {
             return {
-                searchTarget: '',
-                searchResult : [],
-                start: 1,
-                count: 5
+                searchTxt: ''
             }
         },
         mounted(){
-            this.getResult();
+            this.enterSearch();
         },
         methods: {
-            getResult(page){
-                var url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
-                if (!this.searchTarget) {
-                    var url = '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
-                }
-                this.$http.get(url).then(res=>{
-                    var data = res.body;
-                    this.searchResult = data.subjects;
-                    // this.searchTarget=""; //清空输入框 ,这里不应该清空
-                    //向其他组件发送数据，让其他组件也能使用这里获取到的数据
-                    this.$root.eventHub.$emit('getResult',data);
-
-                    this.$root.eventHub.$on('handleSizeChange',(page)=>{
-                        debugger;
-                        this.start = page;
-                    })
-                });
-            },
             enterSearch(){
-                this.getResult(); //点击搜索按钮，发送请求，获取数据
-                // 此处应该再加一个判断，如果没有搜索结果，提示
-                // this.showList = true; //点击输入按钮显示内容
+                this.$emit('onClickSearch', {
+                    page:1,
+                    searchKey: this.searchTxt
+                });
             }
 
         }

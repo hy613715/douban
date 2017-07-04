@@ -28,7 +28,7 @@
         methods: {
             obtainData(){
                 //获取search组件传过来的数据
-                this.$root.eventHub.$on('getResult',(data)=>{
+                this.$root.eventHub.$on('getSearchResult',(data)=>{
                     this.result = data.subjects;
                 })
             }
