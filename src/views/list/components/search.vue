@@ -42,6 +42,11 @@
                     // this.searchTarget=""; //清空输入框 ,这里不应该清空
                     //向其他组件发送数据，让其他组件也能使用这里获取到的数据
                     this.$root.eventHub.$emit('getResult',data);
+
+                    this.$root.eventHub.$on('handleSizeChange',(page)=>{
+                        debugger;
+                        this.start = page;
+                    })
                 });
             },
             enterSearch(){

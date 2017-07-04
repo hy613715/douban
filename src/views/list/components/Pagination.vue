@@ -2,8 +2,8 @@
     <el-pagination
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
+        :page-size="result.count"
+        layout="total, prev, pager, next, jumper"
         :total="result.total">
     </el-pagination>
 </template>
