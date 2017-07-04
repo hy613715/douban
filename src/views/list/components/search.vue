@@ -32,6 +32,8 @@
         },
         methods: {
             getResult(page){
+                this.start = page ? page :this.start;
+
                 var url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
                 if (!this.searchTarget) {
                     var url = '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
@@ -44,8 +46,7 @@
                     this.$root.eventHub.$emit('getResult',data);
 
                     this.$root.eventHub.$on('handleSizeChange',(page)=>{
-                        debugger;
-                        this.start = page;
+                        console.log(page);
                     })
                 });
             },
