@@ -6,7 +6,7 @@
         id="searchBar"
         type="text"
         placeholder="请输入您要搜索的内容"
-        v-model="searchTarget"
+        v-model="searchTxt"
         @keyup.enter="enterSearch">
         <button @click="enterSearch">搜索</button>
     </div>
@@ -21,14 +21,11 @@
     export default {
         data() {
             return {
-                searchTarget: '',
-                searchResult : [],
-                start: 1,
-                count: 5
+                searchTxt: ''
             }
         },
         mounted(){
-            this.getResult();
+            this.enterSearch();
         },
         methods: {
             getResult(page){
@@ -51,9 +48,10 @@
                 });
             },
             enterSearch(){
-                this.getResult(); //点击搜索按钮，发送请求，获取数据
-                // 此处应该再加一个判断，如果没有搜索结果，提示
-                // this.showList = true; //点击输入按钮显示内容
+                this.$emit('onClickSearch', {
+                    page:1,
+                    searchKey: this.searchTxt
+                });
             }
 
         }

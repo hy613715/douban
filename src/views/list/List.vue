@@ -1,8 +1,8 @@
 <template>
     <div id="list">
-        <search></search>
+        <search @onClickSearch="getResult"></search>
         <result></result>
-        <pagination></pagination>
+        <pagination @onClickSearch="getResult"></pagination>
     </div>
 </template>
 
@@ -17,7 +17,38 @@ export default {
         'search': Search,
         'result': Result,
         'pagination': Pagination
+    },
+    data() {
+        return {
+            start: 1,
+            count: 20
+        }
+    },
+    methods: {
+        getResult(options){
+            var page = options.page;
+            var searchTarget = options.searchKey;
+
+            this.start = page ? page : 1;
+            var url = '/api/v2/movie/search?q='+ searchTarget + '&start=' + this.start + '&count=' + this.count;
+            if (!searchTarget) {
+                var url = '/api/v2/movie/top250?start='+ this.start + '&count=' + this.count;
+            }
+            this.$http.get(url).then(res=>{
+                var data = res.body;
+                // searchTarget = data.subjects;
+                // this.searchTarget=""; //清空输入框 ,这里不应该清空
+                //向其他组件发送数据，让其他组件也能使用这里获取到的数据
+                this.$root.eventHub.$emit('getSearchResult', data);
+
+                // this.$root.eventHub.$on('currentPage',(page)=>{
+                //     this.start = page;
+                //     this.searchTarget = searchTarget;
+                // })
+            });
+        }
     }
+
 }
 
 </script>
