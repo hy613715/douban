@@ -1,37 +1,14 @@
 <template>
-    <div>
-        <div class="searchWrap">
-            <label for="searchBar">搜索：</label>
-            <input
-            class="searchBar"
-            id="searchBar"
-            type="text"
-            placeholder="请输入您要搜索的内容"
-            v-model="searchTarget"
-            @keyup.enter="enterSearch">
-            <button @click="enterSearch">搜索</button>
-        </div>
-        <ul class="movieList">
-            <li class="item clearfix" v-for="item in searchResult">
-                <a :href="item.alt" class="movieImg"><img :src="item.images.large" alt=""></a>
-                <div class="movieMsg">
-                    <a :href="item.alt" class="moiveName">{{item.title}}</a>
-                    <p class="moiveDirectors">导演：<a :href="director.alt" v-for="director in item.directors">{{director.name}}</a></p>
-                    <p class="moiveStyle">类型：<span v-for="item in item.genres">{{item}}</span></p>
-                    <p class="moiveCasts">主演：<a :href="cast.alt" v-for="cast in item.casts">{{cast.name}}</a></p>
-                    <p class="moiveInfo">简介：数据里面没看到有关电影介绍的内容</p>
-                    <p class="moiveWatch">看过人数：{{item.collect_count}}</p>
-                </div>
-            </li>
-        </ul>
-        <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="start"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
-        </el-pagination>
+    <div class="searchWrap">
+        <label for="searchBar">搜索：</label>
+        <input
+        class="searchBar"
+        id="searchBar"
+        type="text"
+        placeholder="请输入您要搜索的内容"
+        v-model="searchTarget"
+        @keyup.enter="enterSearch">
+        <button @click="enterSearch">搜索</button>
     </div>
 </template>
 
@@ -46,9 +23,8 @@
             return {
                 searchTarget: '',
                 searchResult : [],
-                start:1,
-                count: 10,
-                total:0 // 获取数据条数（电影总数）
+                start: 1,
+                count: 5
             }
         },
         mounted(){
@@ -56,93 +32,29 @@
         },
         methods: {
             getResult(page){
-
-                this.start = page ? page :this.start;
-                
-                url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
-
+                var url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
                 if (!this.searchTarget) {
                     var url = '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
                 }
-
                 this.$http.get(url).then(res=>{
                     var data = res.body;
                     this.searchResult = data.subjects;
-                    this.total = data.total;
                     // this.searchTarget=""; //清空输入框 ,这里不应该清空
+                    //向其他组件发送数据，让其他组件也能使用这里获取到的数据
+                    this.$root.eventHub.$emit('getResult',data);
                 });
-
             },
             enterSearch(){
                 this.getResult(); //点击搜索按钮，发送请求，获取数据
                 // 此处应该再加一个判断，如果没有搜索结果，提示
                 // this.showList = true; //点击输入按钮显示内容
-            },
-            handleCurrentChange(page) {
-                this.getResult(page);
             }
+
         }
     }
 </script>
 
 <style>
-    .movieList {
-        width: 960px;
-        margin: 0 auto;
-    }
-    .movieList .item {
-        border-bottom: 1px dashed #ccc;
-        padding: 15px 20px;
-    }
-    .movieImg {
-        float: left;
-    }
-    .movieImg {
-        width: 150px;
-        overflow: hidden;
-    }
-    .movieImg img {
-        width: 100%;
-    }
-    .movieMsg {
-        font-size: 14px;
-        color: #555;
-        margin-left: 170px;
-    }
-    .movieMsg a {
-        display: block;
-        color: #555;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    .movieMsg p {
-        margin-bottom: 5px;
-    }
-    .moiveCasts span,
-    .moiveStyle span {
-        margin-right: 10px;
-    }
-    .moiveDirectors a,
-    .moiveCasts a {
-        font-size: 14px;
-        color: #555;
-        font-weight: normal;
-        display: inline;
-        margin-right: 10px;
-    }
-    .moiveRank .el-rate {
-        display: inline-block;
-    }
-    *{margin:0;padding:0;list-style:none;}
-    .clearfix:after{
-        display: block;
-        content:"";
-        height: 0;
-        visibility: hidden;
-        clear: both;
-    }
     .searchWrap {
         width: 960px;
         margin: 20px auto;
