@@ -28,32 +28,12 @@
             this.enterSearch();
         },
         methods: {
-            getResult(page){
-                this.start = page ? page :this.start;
-
-                var url = '/api/v2/movie/search?q='+this.searchTarget + '&start=' + this.start + '&count=' + this.count;
-                if (!this.searchTarget) {
-                    var url = '/api/v2/movie/top250?start=' + this.start + '&count=' + this.count;
-                }
-                this.$http.get(url).then(res=>{
-                    var data = res.body;
-                    this.searchResult = data.subjects;
-                    // this.searchTarget=""; //清空输入框 ,这里不应该清空
-                    //向其他组件发送数据，让其他组件也能使用这里获取到的数据
-                    this.$root.eventHub.$emit('getResult',data);
-
-                    this.$root.eventHub.$on('handleSizeChange',(page)=>{
-                        console.log(page);
-                    })
-                });
-            },
             enterSearch(){
                 this.$emit('onClickSearch', {
                     page:1,
                     searchKey: this.searchTxt
                 });
             }
-
         }
     }
 </script>

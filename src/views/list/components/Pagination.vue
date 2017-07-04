@@ -24,6 +24,7 @@
                     this.result = data;
                 })
             },
+            // 应该里面还需要一个搜索框的参数
             handleCurrentChange(page) {
                 this.$emit('onClickSearch', page)
             }
