@@ -1,7 +1,7 @@
 <template>
     <ul class="movieList">
         <li class="item clearfix" v-for="item in result">
-            <a :href="item.alt" class="movieImg"><img :src="item.images.large" alt=""></a>
+            <a :href="item.alt" class="movieImg"><img :src="item.images.large" alt="111" title="222"></a>
             <div class="movieMsg">
                 <a :href="item.alt" class="moiveName">{{item.title}}({{item.year}})</a>
                 <p class="moiveDirectors">导演：<a :href="director.alt" v-for="director in item.directors">{{director.name}}</a></p>
@@ -36,7 +36,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .movieList {
         width: 960px;
         margin: 0 auto;
