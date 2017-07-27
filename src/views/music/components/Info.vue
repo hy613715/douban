@@ -3,14 +3,15 @@
         <div class="info-img">
             <img src="" alt="">
         </div>
-        <ul class="info-detail">
-            <li><label>歌曲：</label><a href="">我只在乎你</a></li>
-            <li><label>歌手：</label>邓丽君</li>
+        <ul class="info-detail" v-for="item in result">
+            <li><label>歌曲：</label><a href="" v-for="el in item.attrs.title">{{el}}</a></li>
+            <li><label>歌手：</label>
+                <span v-for="el in item.author">{{el.name}}</span>
+            </li>
             <li><label>专辑：</label>留聲經典復刻版</li>
             <li>
                 <label>标签：</label>
-                <span>经典</span>
-                <span>邓丽君</span>
+                <span v-for="el in item.tags">{{el.name}}（{{el.count}}） </span>
             </li>
             <li>
                 <label>简介：</label>
@@ -20,7 +21,25 @@
     </div>
 </template>
 <script>
-
+    export default {
+        data(){
+            return {
+                result:[]
+            }
+        },
+        mounted(){
+            //页面加载是运行函数，否则获取不到search组件传过来的数据
+            this.obtainData();
+        },
+        methods: {
+            obtainData(){
+                //获取search组件传过来的数据
+                this.$root.eventHub.$on('getMusicData',(data)=>{
+                    this.result = data;
+                })
+            }
+        }
+    }
 </script>
 <style>
     .info-img {

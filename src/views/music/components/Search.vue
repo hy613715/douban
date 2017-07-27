@@ -19,6 +19,8 @@
         },
         methods: {
             getData() {
+                // 定义this
+                var self = this;
                 this.$ajax({
                     method: 'GET',
                     url: '/api/v2/music/search',
@@ -27,6 +29,7 @@
                     }
                 }).then(function(res){
                     var musicData = res.data.musics;
+                    self.$root.eventHub.$emit('getMusicData', musicData);
                 })
             }
         }

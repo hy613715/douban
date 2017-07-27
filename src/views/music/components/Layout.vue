@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" @click="aa">
         <search></search>
         <info></info>
     </div>
@@ -13,6 +13,11 @@
         components: {
             'info' : Info,
             'search' : Search
+        },
+        methods: {
+            aa: function() {
+                console.log(this.$root)
+            }
         }
     }
 </script>
